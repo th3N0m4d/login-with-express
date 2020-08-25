@@ -1,4 +1,4 @@
-import {hashPassword} from '../src/user';
+import {hashPassword, checkPassword} from '../src/user';
 
 jest.mock('bcrypt-nodejs', ()=> ({
   __esModule: true,
@@ -6,6 +6,9 @@ jest.mock('bcrypt-nodejs', ()=> ({
     genSalt: (rounds: number, cb: Function) => cb(),
     hash: (pwd: string, salt: string, progressCb: Function, cb: Function) => {
       cb(null, 'FOOBAR');
+    },
+    compare: (pwd: string, hash: string, cb: Function) => {
+      cb(null, true);
     },
   },
 }));
@@ -15,5 +18,11 @@ describe('Schema', () => {
     const hashedPassword = await hashPassword('Foo');
 
     expect(hashedPassword).toBe('FOOBAR');
+  });
+
+  it('should match hash against unhashed password', async () => {
+    const isMatch = await checkPassword('Foo', 'FOOBAR');
+
+    expect(isMatch).toBeTruthy();
   });
 });

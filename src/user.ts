@@ -32,6 +32,25 @@ export const updateUser = (user: User) => {
 
 };
 
+/**
+ * Compares a password against its hash and returns if it's a match
+ * @param {string} password - Password to check
+ * @param {string} hash - Hash to test against provided password
+ * @return {Promise<boolean>} The result of the match
+ */
+export const checkPassword = async (password: string, hash: string)
+: Promise<boolean> =>
+  new Promise<boolean>((resolve, reject)=> {
+    bcrypt.compare(password, hash, (err, isMatch) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(isMatch);
+      }
+    });
+  });
+
+
 const noop = () => undefined;
 
 /**
