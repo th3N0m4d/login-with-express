@@ -15,7 +15,8 @@
     ],
     "rules": {
       "no-unused-vars": "off",
-      "no-undef":"off"
+      "no-undef": "off",
+      "no-invalid-this": "off"
     },
     "settings": {
         "import/resolver": {
