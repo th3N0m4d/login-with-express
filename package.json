@@ -6,8 +6,8 @@
   "scripts": {
     "build": "webpack",
     "start": "node -r dotenv/config ./dist/bundle.js",
-    "test": "jest",
-    "test:watch": "jest --watch"
+    "test": "jest --runInBand",
+    "test:watch": "jest --watch --runInBand"
   },
   "keywords": [],
   "author": "",
