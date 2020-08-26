@@ -1,28 +1,43 @@
-import {hashPassword, checkPassword} from '../src/user';
-
-jest.mock('bcrypt-nodejs', ()=> ({
-  __esModule: true,
-  default: {
-    genSalt: (rounds: number, cb: Function) => cb(),
-    hash: (pwd: string, salt: string, progressCb: Function, cb: Function) => {
-      cb(null, 'FOOBAR');
-    },
-    compare: (pwd: string, hash: string, cb: Function) => {
-      cb(null, true);
-    },
-  },
-}));
+import mongoose, {Mongoose} from 'mongoose';
+import UserSchema, {User} from '../src/user';
 
 describe('Schema', () => {
-  it('should hash password', async () => {
-    const hashedPassword = await hashPassword('Foo');
+  let connection: Mongoose;
+  const {
+    __MONGO_URI__ = '',
+  } = process.env;
 
-    expect(hashedPassword).toBe('FOOBAR');
+  beforeAll(async () => {
+    connection = await mongoose.connect(`${__MONGO_URI__}/users`, {
+      useCreateIndex: true,
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
   });
 
-  it('should match hash against unhashed password', async () => {
-    const isMatch = await checkPassword('Foo', 'FOOBAR');
+  afterAll(async () => {
+    connection.disconnect();
+  });
 
-    expect(isMatch).toBeTruthy();
+  afterEach(async ()=> {
+    await mongoose.connection.db.dropCollection('users');
+  });
+
+  it('should insert a doc into collection', async () => {
+    const mockUser: User = new UserSchema({
+      username: 'john.doe',
+      displayName: 'John Doe',
+      password: 'FooBar',
+      createdAt: new Date(),
+    });
+
+    await UserSchema.create(mockUser);
+
+    const insertedUser = await UserSchema.findOne({username: 'john.doe'});
+
+    expect(insertedUser?.username).toEqual(mockUser.username);
+    expect(insertedUser?.displayName).toEqual(mockUser.displayName);
+    expect(insertedUser?.password).toEqual(mockUser.password);
+    expect(insertedUser?.createdAt).toEqual(mockUser.createdAt);
   });
 });

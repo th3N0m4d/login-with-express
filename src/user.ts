@@ -1,5 +1,5 @@
 import mongoose, {Schema, Document} from 'mongoose';
-import bcrypt from 'bcrypt-nodejs';
+import bcrypt from 'bcrypt';
 
 const SALT_FACTOR = 10;
 
@@ -39,19 +39,8 @@ export const updateUser = (user: User) => {
  * @return {Promise<boolean>} The result of the match
  */
 export const checkPassword = async (password: string, hash: string)
-: Promise<boolean> =>
-  new Promise<boolean>((resolve, reject)=> {
-    bcrypt.compare(password, hash, (err, isMatch) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(isMatch);
-      }
-    });
-  });
+: Promise<boolean> => bcrypt.compare(password, hash);
 
-
-const noop = () => undefined;
 
 /**
  * Hashes password using BCrypt
@@ -59,29 +48,21 @@ const noop = () => undefined;
  * @param {string} password - The password to be hashed
  * @return {Promise<string>} The hashed password
  */
-export const hashPassword = (password: string): Promise<string> =>
-  new Promise<string>((resolve, reject)=> {
-    bcrypt.genSalt(SALT_FACTOR, (err, salt) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-
-      bcrypt.hash(password, salt, noop, (err, hashPassword)=> {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(hashPassword);
-        }
-      });
-    });
-  });
+export const hashPassword = async (password: string): Promise<string> => {
+  try {
+    const salt = await bcrypt.genSalt(SALT_FACTOR);
+    return bcrypt.hash(password, salt);
+  } catch (error) {
+    return error;
+  }
+};
 
 
 UserSchema.pre<User>('save', async function(next) {
   if (this.isModified('password')) {
     this.password = await hashPassword(this.password);
   }
+  next();
 });
 
 export default mongoose.model<User>('User', UserSchema);
