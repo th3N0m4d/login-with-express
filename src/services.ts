@@ -4,18 +4,6 @@ import UserSchema, {User} from './user';
 
 const SALT_FACTOR = 10;
 
-const create = ()=> {
-
-};
-
-const find = () => {
-
-};
-
-const update = () => {
-
-};
-
 /**
  * Compares a password against its hash and returns if it's a match
  * @param {string} password - Password to check
@@ -42,9 +30,6 @@ const hashPassword = async (password: string): Promise<string> => {
 };
 
 export {
-  create,
-  find,
-  update,
   hashPassword,
   checkPassword,
 };
