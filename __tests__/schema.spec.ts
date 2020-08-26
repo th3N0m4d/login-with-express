@@ -16,7 +16,7 @@ describe('Schema', () => {
   });
 
   afterAll(async () => {
-    connection.disconnect();
+    await mongoose.connection.close();
   });
 
   afterEach(async ()=> {
