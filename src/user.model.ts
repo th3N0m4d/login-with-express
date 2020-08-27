@@ -3,17 +3,15 @@ import mongoose, {Schema, Document} from 'mongoose';
 import * as service from './services';
 
 const UserSchema = new Schema({
-  username: {type: String, required: true, unique: true},
+  email: {type: String, required: true, unique: true},
   password: {type: String, required: true},
-  createdAt: {type: Date, default: Date.now},
   firstName: String,
   lastName: String,
 });
 
 export interface User extends Document {
-    username: string,
+    email: string,
     password: string,
-    createdAt: Date,
     firstName?: string,
     lastName?: string,
 }
