@@ -11,14 +11,10 @@ jest.mock('bcrypt', ()=> ({
 
 describe('Service', () => {
   it('should hash password', async () => {
-    const hashedPassword = await service.hashPassword('Foo');
-
-    expect(hashedPassword).toBe('FOOBAR');
+    await expect(service.hashPassword('Foo')).resolves.toBe('FOOBAR');
   });
 
   it('should match hash against unhashed password', async () => {
-    const isMatch = await service.checkPassword('Foo', 'FOOBAR');
-
-    expect(isMatch).toBeTruthy();
+    await expect(service.checkPassword('Foo', 'FOOBAR')).resolves.toBeTruthy();
   });
 });
