@@ -1,11 +1,15 @@
-import express, {Express, Request, Response} from 'express';
+import express, {Express, Request, Response, NextFunction} from 'express';
 import morgan from 'morgan';
 import session from 'express-session';
 import flash from 'connect-flash';
 import cookieParser from 'cookie-parser';
 import mongoose from 'mongoose';
 
-const app: Express = express();
+import routes from './routes';
+import passport from 'passport';
+import setupPassport from './setupPassport';
+
+const server: Express = express();
 
 const {
   __MONGO_URI__ = '',
@@ -19,22 +23,33 @@ mongoose.connect(`${__MONGO_URI__}/${__MONGO_DB_NAME__}`, {
 });
 
 // Set Express variables
-app.set('port', process.env.PORT || 3000);
+server.set('port', process.env.PORT || 3000);
 
 // User middlewares
 const sessionSecret: string = process.env.COOKIE_SECRET || '';
 
-app.use(morgan('dev'));
-app.use(express.urlencoded({extended: true}));
-app.use(express.json());
-app.use(cookieParser());
-app.use(session({
+server.use(morgan('dev'));
+server.use(express.urlencoded({extended: false}));
+server.use(express.json());
+server.use(cookieParser());
+server.use(session({
   secret: sessionSecret,
   resave: true,
   saveUninitialized: true,
 }));
-app.use(flash());
+server.use(flash());
 
-app.use((req: Request, res: Response ) => res.json('Hello world!'));
+// PassportJs
+server.use(passport.initialize());
+server.use(passport.session());
 
-export default app;
+setupPassport();
+
+server.use('/signup', routes);
+
+server.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  console.log(err);
+  next(err);
+});
+
+export default server;
