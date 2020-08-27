@@ -11,7 +11,7 @@ router.use((req: Request, res: Response, next: NextFunction)=> {
   next();
 });
 
-router.post('/', (req: Request, res: Response, next: NextFunction)=> {
+router.post('/signup', (req: Request, res: Response, next: NextFunction)=> {
   const {
     email,
     password,

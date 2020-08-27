@@ -45,7 +45,7 @@ server.use(passport.session());
 
 setupPassport();
 
-server.use('/signup', routes);
+server.use(routes);
 
 server.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.log(err);
