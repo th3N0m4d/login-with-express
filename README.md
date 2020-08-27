@@ -11,10 +11,34 @@ Here you will find all the major concepts and techniques to successfully impleme
 yarn
 ```
 
+
+
 ## Usage
 
+First, build the project by running the following command:
+
 ```bash
-npm run start
+yarn build
+```
+
+After the project has been compiled, you can safely run the script:
+
+```bash
+yarn start
+```
+
+## Testing
+
+Runs all tests only once. This script is used by Husky and CI.
+
+```bash
+yarn test
+```
+
+During development, is more convinient to have Jest re-run your tests every time you edit your `.ts` files. 
+
+```bash
+yarn test:watch
 ```
 
 ## Contributing
