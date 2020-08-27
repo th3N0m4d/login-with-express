@@ -1,13 +1,13 @@
 import mongoose from 'mongoose';
-import UserSchema, {User} from '../src/user.model';
+import UserModel, {User} from '../src/user.model';
 
-describe('User Schema', () => {
+describe('User Model', () => {
   const {
     __MONGO_URI__ = '',
   } = process.env;
 
   beforeAll(async () => {
-    await mongoose.connect(`${__MONGO_URI__}/schemaDb`, {
+    await mongoose.connect(`${__MONGO_URI__}/modelDb`, {
       useCreateIndex: true,
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -24,19 +24,20 @@ describe('User Schema', () => {
   });
 
   it('should insert a doc into collection', async () => {
-    const mockUser: User = new UserSchema({
-      username: 'john.doe',
-      displayName: 'John Doe',
+    const mockUser: User = new UserModel({
+      email: 'john.doe@email.com',
+      firstName: 'John',
+      lastName: 'Doe',
       password: 'FooBar',
-      createdAt: new Date(),
     });
 
-    await UserSchema.create(mockUser);
+    await UserModel.create(mockUser);
 
-    const insertedUser = await UserSchema.findOne({username: 'john.doe'});
+    const insertedUser = await UserModel.findOne({email: 'john.doe@email.com'});
 
-    expect(insertedUser?.username).toEqual(mockUser.username);
+    expect(insertedUser?.email).toEqual(mockUser.email);
     expect(insertedUser?.password).toEqual(mockUser.password);
-    expect(insertedUser?.createdAt).toEqual(mockUser.createdAt);
+    expect(insertedUser?.firstName).toEqual(mockUser.firstName);
+    expect(insertedUser?.lastName).toEqual(mockUser.lastName);
   });
 });
