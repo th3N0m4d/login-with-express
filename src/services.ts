@@ -1,7 +1,5 @@
 import bcrypt from 'bcrypt';
 
-import UserSchema, {User} from './user';
-
 const SALT_FACTOR = 10;
 
 /**
