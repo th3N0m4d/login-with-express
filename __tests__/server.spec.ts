@@ -6,23 +6,28 @@ import server from '../src/server';
 describe('Server', () => {
   let app: SuperTest<Test>;
 
-  beforeAll(async () => {
+  beforeAll(()=>{
     app = supertest(server);
   });
 
-  afterAll(async () => {
+  afterAll(async ()=>{
     await mongoose.connection.close();
     await mongoose.connection.dropDatabase();
   });
 
-  // afterEach(async ()=> {
-  //   await mongoose.connection.collection('users').drop();
-  // });
+  afterEach(async ()=>{
+    await mongoose.connection.collection('users').drop();
+  });
 
-  it('should return 200', (done) => {
-    app.get('/')
-        .expect(200)
-        .end(done);
+  it('should create new user', (done) => {
+    app.post('/signup')
+        .send({
+          firstName: 'John',
+          lastName: 'Doe',
+          email: 'john.doe@email.com',
+          password: '1234',
+        })
+        .redirects(1)
+        .expect(201, 'User created!', done);
   });
 });
-
