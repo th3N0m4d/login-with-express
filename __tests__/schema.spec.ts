@@ -1,14 +1,13 @@
-import mongoose, {Mongoose} from 'mongoose';
+import mongoose from 'mongoose';
 import UserSchema, {User} from '../src/user';
 
 describe('Schema', () => {
-  let connection: Mongoose;
   const {
     __MONGO_URI__ = '',
   } = process.env;
 
   beforeAll(async () => {
-    connection = await mongoose.connect(`${__MONGO_URI__}/users`, {
+    await mongoose.connect(`${__MONGO_URI__}/schemaDb`, {
       useCreateIndex: true,
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -17,10 +16,11 @@ describe('Schema', () => {
 
   afterAll(async () => {
     await mongoose.connection.close();
+    await mongoose.connection.dropDatabase();
   });
 
   afterEach(async ()=> {
-    await mongoose.connection.db.dropCollection('users');
+    await mongoose.connection.collection('users').drop();
   });
 
   it('should insert a doc into collection', async () => {
@@ -36,7 +36,6 @@ describe('Schema', () => {
     const insertedUser = await UserSchema.findOne({username: 'john.doe'});
 
     expect(insertedUser?.username).toEqual(mockUser.username);
-    expect(insertedUser?.displayName).toEqual(mockUser.displayName);
     expect(insertedUser?.password).toEqual(mockUser.password);
     expect(insertedUser?.createdAt).toEqual(mockUser.createdAt);
   });
