@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
-import UserSchema, {User} from '../src/user';
+import UserSchema, {User} from '../src/user.model';
 
-describe('Schema', () => {
+describe('User Schema', () => {
   const {
     __MONGO_URI__ = '',
   } = process.env;

@@ -1,5 +1,5 @@
 
-import {User} from '../../src/user';
+import {User} from '../../src/user.model';
 
 declare global{
     namespace Express {
