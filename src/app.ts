@@ -1,3 +1,7 @@
 import server from './server';
 
-server.listen(server.get('port'), ()=> console.log('Server is running'));
+const port = server.get('port');
+
+server.listen(port, ()=>
+  console.log(`Server is running on port ${port}`),
+);
