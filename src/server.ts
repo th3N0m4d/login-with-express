@@ -3,6 +3,7 @@ import morgan from 'morgan';
 import session from 'express-session';
 import flash from 'connect-flash';
 import cookieParser from 'cookie-parser';
+import chalk from 'chalk';
 
 import routes from './routes';
 import passport from 'passport';
@@ -41,7 +42,7 @@ setupDb();
 server.use(routes);
 
 server.use((err: any, req: Request, res: Response, next: NextFunction) => {
-  console.log(err);
+  chalk.bgRed(err);
   next(err);
 });
 
