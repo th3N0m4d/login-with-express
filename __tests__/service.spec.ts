@@ -1,6 +1,6 @@
 import * as service from '../src/services';
 
-jest.mock('bcrypt', ()=> ({
+jest.mock('bcryptjs', ()=> ({
   __esModule: true,
   default: {
     genSalt: (rounds: number) => Promise.resolve(),
