@@ -3,24 +3,13 @@ import morgan from 'morgan';
 import session from 'express-session';
 import flash from 'connect-flash';
 import cookieParser from 'cookie-parser';
-import mongoose from 'mongoose';
 
 import routes from './routes';
 import passport from 'passport';
 import setupPassport from './setupPassport';
+import setupDb from './dbSetup';
 
 const server: Express = express();
-
-const {
-  __MONGO_URI__ = '',
-  __MONGO_DB_NAME__ = '',
-} = process.env;
-
-mongoose.connect(`${__MONGO_URI__}/${__MONGO_DB_NAME__}`, {
-  useCreateIndex: true,
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
 
 // Set Express variables
 server.set('port', process.env.PORT || 3000);
@@ -32,10 +21,12 @@ server.use(morgan('dev'));
 server.use(express.urlencoded({extended: false}));
 server.use(express.json());
 server.use(cookieParser());
+server.set('trust proxy', 1);
 server.use(session({
   secret: sessionSecret,
   resave: true,
   saveUninitialized: true,
+  cookie: {secure: true},
 }));
 server.use(flash());
 
@@ -44,6 +35,8 @@ server.use(passport.initialize());
 server.use(passport.session());
 
 setupPassport();
+
+setupDb();
 
 server.use(routes);
 
