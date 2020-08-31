@@ -20,7 +20,7 @@ describe('Server', () => {
   });
 
   it('should create new user', (done) => {
-    app.post('/signup')
+    app.post('/register')
         .send({
           firstName: 'John',
           lastName: 'Doe',
@@ -28,6 +28,6 @@ describe('Server', () => {
           password: '1234',
         })
         .redirects(1)
-        .expect(201, 'User created!', done);
+        .end(done);
   });
 });

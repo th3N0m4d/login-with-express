@@ -6,31 +6,38 @@ import {checkPassword} from './services';
 
 const LocalStrategy = passportLocal.Strategy;
 
-passport.use('login',
-    new LocalStrategy((username: string, password: string, done: Function) => {
-      UserModel.findOne({username}, async (err, user)=> {
-        if (err) {
-          return done(err);
-        }
-
-        if (!user) {
-          return done(null, false, {message: 'User not found!'});
-        }
-
-        try {
-          const isMatch = await checkPassword(password, user.password);
-          if (isMatch) {
-            return done(null, user);
-          } else {
-            return done(null, false, {message: 'Invalid password'});
-          }
-        } catch (error) {
-          return done(error);
-        }
-      });
-    }));
 
 export default () => {
+  passport.use('local',
+      new LocalStrategy({
+        usernameField: 'email',
+      }, (
+          email: string,
+          password: string,
+          done: Function,
+      ) => {
+        UserModel.findOne({email}, async (err, user)=> {
+          if (err) {
+            return done(err);
+          }
+
+          if (!user) {
+            return done(null, false, {message: 'User not found!'});
+          }
+
+          try {
+            const isMatch = await checkPassword(password, user.password);
+            if (isMatch) {
+              return done(null, user);
+            } else {
+              return done(null, false, {message: 'Invalid password'});
+            }
+          } catch (error) {
+            return done(error);
+          }
+        });
+      }));
+
   passport.serializeUser((user: User, done: Function)=>{
     done(null, user._id);
   });
