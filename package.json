@@ -2,10 +2,10 @@
   "name": "login-with-express",
   "version": "1.0.0",
   "description": "",
-  "main": "./dist/server.js",
+  "main": "./dist/app.js",
   "scripts": {
     "build": "webpack",
-    "start": "node -r dotenv/config ./dist/bundle.js",
+    "start": "node -r dotenv/config ./dist/app.js",
     "test": "jest --runInBand",
     "test:watch": "jest --watch --runInBand"
   },
