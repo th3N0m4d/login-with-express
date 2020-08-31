@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+import bcryptjs from 'bcryptjs';
 
 const SALT_FACTOR = 10;
 
@@ -9,19 +9,19 @@ const SALT_FACTOR = 10;
  * @return {Promise<boolean>} The result of the match
  */
 const checkPassword = async (password: string, hash: string)
-: Promise<boolean> => bcrypt.compare(password, hash);
+: Promise<boolean> => bcryptjs.compare(password, hash);
 
 
 /**
- * Hashes password using BCrypt
+ * Hashes password using bcryptjs
  * @async
  * @param {string} password - The password to be hashed
  * @return {Promise<string>} The hashed password
  */
 const hashPassword = async (password: string): Promise<string> => {
   try {
-    const salt = await bcrypt.genSalt(SALT_FACTOR);
-    return bcrypt.hash(password, salt);
+    const salt = await bcryptjs.genSalt(SALT_FACTOR);
+    return bcryptjs.hash(password, salt);
   } catch (error) {
     return error;
   }
