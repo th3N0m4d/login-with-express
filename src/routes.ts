@@ -10,30 +10,31 @@ router.get('/login', (req: Request, res: Response) => {
 
 router.get('/', (req: Request, res: Response) => res.json('All good'));
 
-router.post('/register', (req: Request, res: Response, next: NextFunction) => {
-  const {
-    email,
-    password,
-    firstName,
-    lastName,
-  } = req.body;
-  const newUser = new UserModel({
-    email,
-    password,
-    firstName,
-    lastName,
-  });
+router.post('/register',
+    async (req: Request, res: Response, next: NextFunction) => {
+      const {
+        email,
+        password,
+        firstName,
+        lastName,
+      } = req.body;
+      const newUser = new UserModel({
+        email,
+        password,
+        firstName,
+        lastName,
+      });
 
-  newUser.save((err: any, user: User)=> {
-    if (err) {
-      return next(err);
-    }
+      try {
+        const user = await newUser.save();
 
-    req.login(user, (err: any)=>{
-      return res.redirect('/');
+        req.login(user, (err: any)=>{
+          return res.redirect('/');
+        });
+      } catch (error) {
+        return next(error);
+      }
     });
-  });
-});
 
 router.post('/login', passport.authenticate('local', {
   successRedirect: '/',

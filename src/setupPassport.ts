@@ -2,7 +2,7 @@ import passport from 'passport';
 import passportLocal from 'passport-local';
 
 import UserModel, {User} from './user.model';
-import {checkPassword, findUser} from './services';
+import {checkPassword, findUser} from './user.service';
 
 const LocalStrategy = passportLocal.Strategy;
 

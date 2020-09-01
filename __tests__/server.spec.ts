@@ -4,9 +4,9 @@ import UserModel, {User} from '../src/user.model';
 import {mocked} from 'ts-jest/utils';
 
 import server from '../src/server';
-import {findUser} from '../src/services';
+import {findUser} from '../src/user.service';
 
-jest.mock('../src/services');
+jest.mock('../src/user.service');
 
 describe('Server', () => {
   let app: SuperTest<Test>;
@@ -26,15 +26,11 @@ describe('Server', () => {
     await mongoose.connection.dropDatabase();
   });
 
-  afterEach(async ()=>{
-    try {
-      await mongoose.connection.collection('users').drop();
-    } catch ({message}) {
-      console.log(message);
-    }
-  });
 
   it('should create new user', (done) => {
+    jest.spyOn(UserModel.prototype, 'save')
+        .mockImplementationOnce(()=> Promise.resolve(mockUser));
+
     app.post('/register')
         .send(mockUser)
         .redirects(1)
@@ -43,7 +39,9 @@ describe('Server', () => {
 
   it('should login user', (done) => {
     mocked(findUser)
-        .mockImplementationOnce(()=> Promise.resolve(mockUser));
+        .mockImplementationOnce(
+            ()=> Promise.resolve(mockUser),
+        );
 
     app.post('/login')
         .send({

@@ -1,4 +1,4 @@
-import * as service from '../src/services';
+import * as service from '../src/user.service';
 
 jest.mock('bcryptjs', ()=> ({
   __esModule: true,

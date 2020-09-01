@@ -1,6 +1,6 @@
 import mongoose, {Schema, Document} from 'mongoose';
 
-import * as service from './services';
+import * as service from './user.service';
 
 const UserSchema = new Schema({
   email: {type: String, required: true, unique: true},
