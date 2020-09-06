@@ -1,0 +1,12 @@
+{
+    "verbose": true,
+    "ignore": [
+        "*.spec.ts",
+        ".git",
+        "node_modules/**/node_modules"
+    ],
+    "execMap": {
+      "rb": "ruby",
+      "pde": "processing --sketch={{pwd}} --run"
+    }
+  }
