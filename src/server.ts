@@ -23,12 +23,12 @@ server.use(express.urlencoded({extended: false}));
 server.use(express.json());
 server.use(cookieParser());
 server.set('trust proxy', 1);
-server.use(session({
-  secret: sessionSecret,
-  resave: true,
-  saveUninitialized: true,
-  cookie: {secure: true},
-}));
+// server.use(session({
+//   secret: sessionSecret,
+//   resave: true,
+//   saveUninitialized: true,
+//   cookie: {secure: true},
+// }));
 server.use(flash());
 
 // PassportJs

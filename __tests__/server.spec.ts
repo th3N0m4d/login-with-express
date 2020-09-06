@@ -51,4 +51,11 @@ describe('Server', () => {
         .redirects(1)
         .end(done);
   });
+
+  it('should logout user', (done) => {
+    app.get('/logout')
+        .redirects(1)
+        .expect(200)
+        .end(done);
+  });
 });
