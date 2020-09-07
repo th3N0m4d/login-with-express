@@ -16,7 +16,7 @@ export default () => {
           done: Function,
       ) => {
         try {
-          const user = await findUser(email);
+          const user = await findUser({email});
 
           if (!user) {
             return done(null, false, {message: 'User not found!'});
@@ -36,7 +36,7 @@ export default () => {
 
 
   passport.serializeUser((user: User, done: Function)=>{
-    done(null, user._id);
+    done(null, user);
   });
 
   passport.deserializeUser((id: any, done: Function)=> {

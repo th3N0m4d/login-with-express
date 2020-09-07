@@ -14,14 +14,24 @@ const isAuthenticated = (req: Request, res: Response, next: NextFunction) => {
   res.redirect('/login');
 };
 
+// PROFILE ==================================================
+
+router.get('/profile',
+    isAuthenticated,
+    (req: Request, res: Response) => {
+      const user = req.user;
+
+      res.render('partials/profile', user);
+    });
+
 // LOGIN ====================================================
 
 router.get('/login', (req: Request, res: Response) => {
-  return res.json('Hello world');
+  res.render('partials/login');
 });
 
 router.post('/login', passport.authenticate('local', {
-  successRedirect: '/',
+  successRedirect: '/profile',
   failureRedirect: '/login',
   failureFlash: false,
 }));
@@ -32,6 +42,10 @@ router.get('/logout', (req: Request, res: Response) => {
 });
 
 // REGISTER ================================================
+
+router.get('/register', (req: Request, res: Response) => {
+  res.render('partials/register');
+});
 
 router.post('/register',
     async (req: Request, res: Response, next: NextFunction) => {
@@ -59,10 +73,9 @@ router.post('/register',
       }
     });
 
-// PROFILE ==================================================
 
-router.get('/profile',
-    isAuthenticated,
-    (req: Request, res: Response) => res.json('All good'));
+// Home =====================================================
+
+router.get('/', (req: Request, res: Response) => res.render('index'));
 
 export = router

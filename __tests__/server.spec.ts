@@ -34,7 +34,7 @@ describe('Server', () => {
     app.post('/register')
         .send(mockUser)
         .redirects(1)
-        .end(done);
+        .expect(302, done);
   });
 
   it('should login user', (done) => {
@@ -49,13 +49,12 @@ describe('Server', () => {
           password: '1234',
         })
         .redirects(1)
-        .end(done);
+        .expect(200, done);
   });
 
   it('should logout user', (done) => {
     app.get('/logout')
         .redirects(1)
-        .expect(200)
-        .end(done);
+        .expect(200, done);
   });
 });
