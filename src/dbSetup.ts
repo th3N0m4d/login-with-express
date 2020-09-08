@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 import chalk from 'chalk';
 
+const log = console.log;
+
 export default () => {
   const {
     __MONGO_URI__ = '',
@@ -14,20 +16,20 @@ export default () => {
   });
 
   mongoose.connection.on('connected', () => {
-    chalk.bgGreen(`Mongoose connected to ${__MONGO_URI__}`);
+    log(chalk.magenta(`Mongoose connected to ${__MONGO_URI__}`));
   });
 
   mongoose.connection.on('error', (err: any) => {
-    chalk.bgRed(err);
+    log(chalk.red(err));
   });
 
   mongoose.connection.on('disconnected', () => {
-    chalk.bgYellow('Mongoose disconnected');
+    log(chalk.yellow('Mongoose disconnected'));
   });
 
   process.on('SIGINT', async () => {
     await mongoose.connection.close();
-    chalk.whiteBright('Mongoose disconnected');
+    log(chalk.yellow('Mongoose disconnected'));
     process.exit(0);
   });
 };

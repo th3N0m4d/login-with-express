@@ -17,6 +17,10 @@ const server: Express = express();
 const viewsPath: string = path.resolve(__dirname, '../views');
 const mongoUrl = process.env.__MONGO_URI__ || '';
 const MongoStore = connectMongo(session);
+const store = new MongoStore({
+  url: mongoUrl,
+  collection: 'users',
+});
 
 server.use(express.static(path.resolve(__dirname, '../dist')));
 
@@ -34,10 +38,7 @@ server.use(session({
   secret: 'secrettexthere',
   saveUninitialized: true,
   resave: true,
-  store: new MongoStore({
-    url: mongoUrl,
-    collection: 'users',
-  }),
+  store,
 }));
 
 // View Engine
@@ -61,7 +62,7 @@ setupDb();
 server.use(routes);
 
 server.use((err: any, req: Request, res: Response, next: NextFunction) => {
-  chalk.bgRed(err);
+  console.log(chalk.bgRed(err));
   next(err);
 });
 
