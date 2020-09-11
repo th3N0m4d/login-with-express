@@ -4,10 +4,11 @@
   "description": "",
   "main": "./dist/app.js",
   "scripts": {
-    "tsc": "tsc",
+    "build": "tsc",
     "lint": "eslint ./src/**",
-    "build": "rimraf ./dist && tsc",
-    "dev": "nodemon -r dotenv/config ./dist/app.js",
+    "cleanDist": "rimraf ./dist",
+
+    "start:dev": "nodemon -r dotenv/config && cleanDist && build && ./dist/app.js",
     "test": "jest --runInBand --forceExit",
     "test:watch": "jest --watch --runInBand"
   },

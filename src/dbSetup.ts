@@ -1,22 +1,19 @@
 import mongoose from 'mongoose';
 import chalk from 'chalk';
 
+import config from './utils/config';
+
 const log = console.log;
 
 export default () => {
-  const {
-    __MONGO_URI__ = '',
-    __MONGO_DB_NAME__ = '',
-  } = process.env;
-
-  mongoose.connect(`${__MONGO_URI__}/${__MONGO_DB_NAME__}`, {
+  mongoose.connect(`${config.mongoUri}/${config.mongoDb}`, {
     useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
 
   mongoose.connection.on('connected', () => {
-    log(chalk.magenta(`Mongoose connected to ${__MONGO_URI__}`));
+    log(chalk.magenta(`Mongoose connected to ${config.mongoUri}`));
   });
 
   mongoose.connection.on('error', (err: any) => {

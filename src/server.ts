@@ -12,20 +12,20 @@ import routes from './routes';
 import passport from 'passport';
 import setupPassport from './setupPassport';
 import setupDb from './dbSetup';
+import config from './utils/config';
 
 const server: Express = express();
 const viewsPath: string = path.resolve(__dirname, '../views');
-const mongoUrl = process.env.__MONGO_URI__ || '';
 const MongoStore = connectMongo(session);
 const store = new MongoStore({
-  url: mongoUrl,
+  url: config.mongoUri,
   collection: 'users',
 });
 
 server.use(express.static(path.resolve(__dirname, '../dist')));
 
 // Set Express variables
-server.set('port', process.env.PORT || 3000);
+server.set('port', config.port || 3000);
 
 // User middlewares
 server.use(morgan('dev'));

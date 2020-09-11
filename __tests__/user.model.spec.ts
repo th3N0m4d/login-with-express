@@ -1,13 +1,10 @@
 import mongoose from 'mongoose';
 import UserModel, {User} from '../src/user.model';
+import config from '../src/utils/config';
 
 describe('User Model', () => {
-  const {
-    __MONGO_URI__ = '',
-  } = process.env;
-
   beforeAll(async () => {
-    await mongoose.connect(`${__MONGO_URI__}/modelDb`, {
+    await mongoose.connect(`${config.mongoUri}/modelDb`, {
       useCreateIndex: true,
       useNewUrlParser: true,
       useUnifiedTopology: true,
