@@ -51,7 +51,6 @@ describe('Auth', () => {
     expect(res.render).toHaveBeenLastCalledWith('partials/login');
   });
 
-
   it('should logout user', () => {
     const req = httpMocks.createRequest();
     const res = httpMocks.createResponse();

@@ -9,9 +9,7 @@ const isAuthenticated = (req: Request, res: Response, next: NextFunction) => {
   res.redirect('/login');
 };
 
-const index = (req: Request, res: Response) => {
-  res.render('partials/login');
-};
+const index = (req: Request, res: Response) => res.render('partials/login');
 
 const login = passport.authenticate('local', {
   successRedirect: '/',

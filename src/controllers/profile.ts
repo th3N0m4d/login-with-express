@@ -3,13 +3,9 @@ import {Request, Response, NextFunction} from 'express';
 import {User} from '../user.model';
 import {save} from '../user.service';
 
-const edit = (req: Request, res: Response) => {
-  res.render('partials/edit');
-};
+const edit = (req: Request, res: Response) => res.render('partials/edit');
 
-const index = (req: Request, res: Response) => {
-  res.render('partials/register');
-};
+const index = (req: Request, res: Response) => res.render('partials/register');
 
 const create = async (req: Request, res: Response, next: NextFunction) => {
   try {
