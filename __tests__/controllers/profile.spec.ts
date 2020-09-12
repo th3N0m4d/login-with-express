@@ -3,12 +3,7 @@ import {Request, Response} from 'express';
 
 import ctrl from '../../src/controllers/profile';
 
-const mockUser = {
-  email: 'john.doe@email.com',
-  password: '1234',
-  firstName: 'John',
-  lastName: 'Doe',
-};
+import mockUser from '../../mocks/user';
 
 jest.mock('../../src/user.service', () => ({
   save: (user: object) =>

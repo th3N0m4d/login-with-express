@@ -30,9 +30,6 @@ describe('Server', () => {
 
 
   it('should create new user', (done) => {
-    jest.spyOn(UserModel.prototype, 'save')
-        .mockImplementationOnce(()=> Promise.resolve(mockUser));
-
     app.post('/register')
         .send(mockUser)
         .redirects(1)

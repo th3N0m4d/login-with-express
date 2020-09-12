@@ -29,7 +29,7 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
     const newUser = await save(user);
 
     req.login(newUser, ()=>{
-      return res.redirect('/profile');
+      return res.redirect('/');
     });
   } catch (error) {
     return next(error);

@@ -2,15 +2,18 @@ import {Router} from 'express';
 
 import authController from './controllers/auth';
 import profileController from './controllers/profile';
+import homeController from './controllers/home';
 
 const router: Router = Router();
 
-// PROFILE ==================================================
+// HOME =====================================================
 
-router.get('/profile',
+router.get('/',
     authController.isAuthenticated,
-    profileController.edit,
+    homeController.index,
 );
+
+// PROFILE ==================================================
 
 router.get('/register', profileController.index);
 

@@ -14,7 +14,7 @@ const index = (req: Request, res: Response) => {
 };
 
 const login = passport.authenticate('local', {
-  successRedirect: '/profile',
+  successRedirect: '/',
   failureRedirect: '/login',
   failureFlash: false,
 });
