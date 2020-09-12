@@ -1,5 +1,5 @@
 import bcryptjs from 'bcryptjs';
-import userModel from './user.model';
+import userModel, {User} from './user.model';
 
 const SALT_FACTOR = 10;
 
@@ -38,8 +38,18 @@ const findUser = async (conditions: any) => {
   }
 };
 
+const save = async (user: User) => {
+  try {
+    const newUser = new userModel(user);
+    return await newUser.save();
+  } catch (error) {
+    return error;
+  }
+};
+
 export {
   hashPassword,
   checkPassword,
   findUser,
+  save,
 };

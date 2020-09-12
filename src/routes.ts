@@ -1,81 +1,28 @@
-import {Router, Request, Response, NextFunction} from 'express';
-import passport from 'passport';
-import UserModel from './user.model';
+import {Router} from 'express';
+
+import authController from './controllers/auth';
+import profileController from './controllers/profile';
 
 const router: Router = Router();
-
-// UTILS ===================================================
-
-const isAuthenticated = (req: Request, res: Response, next: NextFunction) => {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-
-  res.redirect('/login');
-};
 
 // PROFILE ==================================================
 
 router.get('/profile',
-    isAuthenticated,
-    (req: Request, res: Response) => {
-      const user = req.user;
+    authController.isAuthenticated,
+    profileController.edit,
+);
 
-      res.render('partials/profile', user);
-    });
+router.get('/register', profileController.index);
 
-// LOGIN ====================================================
+router.post('/register', profileController.create);
 
-router.get('/login', (req: Request, res: Response) => {
-  res.render('partials/login');
-});
+// AUTH ====================================================
 
-router.post('/login', passport.authenticate('local', {
-  successRedirect: '/profile',
-  failureRedirect: '/login',
-  failureFlash: false,
-}));
+router.get('/login', authController.index);
 
-router.get('/logout', (req: Request, res: Response) => {
-  req.logOut();
-  res.redirect('/login');
-});
+router.post('/login', authController.login);
 
-// REGISTER ================================================
+router.get('/logout', authController.logout);
 
-router.get('/register', (req: Request, res: Response) => {
-  res.render('partials/register');
-});
-
-router.post('/register',
-    async (req: Request, res: Response, next: NextFunction) => {
-      const {
-        email,
-        password,
-        firstName,
-        lastName,
-      } = req.body;
-      const newUser = new UserModel({
-        email,
-        password,
-        firstName,
-        lastName,
-      });
-
-      try {
-        const user = await newUser.save();
-
-        req.login(user, ()=>{
-          return res.redirect('/profile');
-        });
-      } catch (error) {
-        return next(error);
-      }
-    });
-
-
-// Home =====================================================
-
-router.get('/', (req: Request, res: Response) => res.render('index'));
 
 export = router
