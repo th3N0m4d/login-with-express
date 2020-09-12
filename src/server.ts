@@ -28,6 +28,7 @@ server.use(express.static(path.resolve(__dirname, '../dist')));
 server.set('port', config.port || 3000);
 
 // User middlewares
+// TODO: Move middlewares to their own setup function
 server.use(morgan('dev'));
 server.use(express.urlencoded({extended: false}));
 server.use(express.json());

@@ -10,6 +10,7 @@ jest.mock('../src/user.service');
 
 describe('Server', () => {
   let app: SuperTest<Test>;
+  // TODO: Move stub objects to their own directory
   const mockUser: User = new UserModel({
     firstName: 'John',
     lastName: 'Doe',
@@ -22,6 +23,7 @@ describe('Server', () => {
   });
 
   afterAll(async ()=>{
+    // TODO: Mock mongoose and move it under __mocks__ dir
     await mongoose.connection.close();
     await mongoose.connection.dropDatabase();
   });

@@ -1,5 +1,6 @@
 import * as service from '../src/user.service';
 
+// TODO: Move this mocked module to under __mocks__
 jest.mock('bcryptjs', ()=> ({
   __esModule: true,
   default: {
