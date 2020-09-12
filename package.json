@@ -7,7 +7,6 @@
     "build": "tsc",
     "lint": "eslint ./src/**",
     "cleanDist": "rimraf ./dist",
-
     "start:dev": "nodemon -r dotenv/config && cleanDist && build && ./dist/app.js",
     "test": "jest --runInBand --forceExit",
     "test:watch": "jest --watch --runInBand"
@@ -56,6 +55,7 @@
     "eslint-config-google": "^0.14.0",
     "husky": "^4.2.5",
     "jest": "^26.4.2",
+    "node-mocks-http": "^1.9.0",
     "nodemon": "^2.0.4",
     "rimraf": "^3.0.2",
     "supertest": "^4.0.2",
