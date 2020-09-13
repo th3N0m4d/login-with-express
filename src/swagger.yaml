@@ -1,0 +1,100 @@
+swagger: "2.0"
+info:
+  description: "This is a RESTful API to access countries, regions, and cities."
+  version: "1.0.0"
+  title: "World Data API"
+
+host: "127.0.0.1:8443"
+tags:
+- name: "login"
+  description: "Authenticates user with Passports's basic auth"
+- name: "register"
+  description: "Creates new user"
+- name: "home"
+  description: "Private route for authenticated users only"
+paths:
+  /login:
+    post:
+      tags:
+      - "login"
+      summary: "Authenticate user and create session for future requests"
+      consumes: 
+        - "application/x-www-form-urlencoded"
+        - "application/json"
+      produces:
+        - text/plain
+      parameters:
+        - in: header
+          name: email
+          required: true
+          type: string
+        - in: header
+          name: password
+          required: true
+          type: string
+      responses:
+        200:
+          description: Redirects user to Home page
+        302:
+          description: Redirects user to Login page
+    get:
+      tags:
+      - "login"
+      summary: "Renders the login form page"
+      produces:
+        - text/html
+      responses:
+        200:
+          description: Login page with form for authentication
+  /register:
+    post:
+      tags:
+      - "register"
+      summary: "Creates new user and authenticates said user to the session"
+      consumes: 
+        - "application/x-www-form-urlencoded"
+        - "application/json"
+      produces:
+        - text/html
+      parameters:
+        - in: formData
+          name: email
+          required: true
+          type: string
+        - in: formData
+          name: password
+          required: true
+          type: string
+        - in: formData
+          name: firstName
+          required: false
+          type: string
+        - in: formData
+          name: lastName
+          required: false
+          type: string
+      responses:
+        302:
+          description: Redirects to home page
+    get:
+      tags:
+      - "register"
+      summary: "Renders register form page"
+      produces:
+        - text/html
+      responses:
+        200:
+          description: Renders register form page
+  /:
+    get:
+      tags:
+      - "home"
+      summary: "Renders home page for authenticated users"
+      produces:
+        - text/html
+      responses:
+        200:
+          description: Renders home page
+    
+schemes:
+- "http"

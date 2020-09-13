@@ -1,8 +1,10 @@
 import {Router} from 'express';
+import swaggerUi from 'swagger-ui-express';
 
 import authController from './controllers/auth';
 import profileController from './controllers/profile';
 import homeController from './controllers/home';
+import swaggerDoc from './swagger.json';
 
 const router: Router = Router();
 
@@ -27,5 +29,9 @@ router.post('/login', authController.login);
 
 router.get('/logout', authController.logout);
 
+// SWAGGER ==================================================
+
+router.use('/api-docs', swaggerUi.serve);
+router.get('/api-docs', swaggerUi.setup(swaggerDoc));
 
 export = router

@@ -8,11 +8,13 @@ import path from 'path';
 import session from 'express-session';
 import connectMongo from 'connect-mongo';
 
+
 import routes from './routes';
 import passport from 'passport';
 import setupPassport from './setupPassport';
 import setupDb from './dbSetup';
 import config from './utils/config';
+
 
 const server: Express = express();
 const viewsPath: string = path.resolve(__dirname, '../views');
@@ -25,7 +27,7 @@ const store = new MongoStore({
 server.use(express.static(path.resolve(__dirname, '../dist')));
 
 // Set Express variables
-server.set('port', config.port || 3000);
+server.set('port', config.port);
 
 // User middlewares
 // TODO: Move middlewares to their own setup function
