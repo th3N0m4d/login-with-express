@@ -7,7 +7,7 @@ import exphbs from 'express-handlebars';
 import path from 'path';
 import session from 'express-session';
 import connectMongo from 'connect-mongo';
-
+import cors from 'cors';
 
 import routes from './routes';
 import passport from 'passport';
@@ -36,6 +36,7 @@ server.use(express.urlencoded({extended: false}));
 server.use(express.json());
 server.use(cookieParser());
 server.use(flash());
+server.use(cors());
 
 server.use(session({
   secret: 'secrettexthere',
